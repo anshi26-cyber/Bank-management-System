@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="profile-section">
+  <div class="profile-wrap">
+    <header class="profile-header" style="align-items:flex-start;">
+      <div>
+        <h1 class="identity-name">Transaction History</h1>
+        <p class="identity-sub">All transactions (newest first)</p>
+      </div>
+      <div style="margin-left:auto;">
+        <a class="btn-outline" href="{% url 'home' %}">Back to Home</a>
+      </div>
+    </header>
+
+    <div class="panel" style="padding:14px; margin-bottom:14px;">
+      <!-- Simple Search & Date filters -->
+      <form method="get" class="filter-form" style="display:flex; gap:8px; flex-wrap:wrap; align-items:end;">
+        <div style="min-width:220px;">
+          <label class="form-label">Search</label>
+          <input name="q" value="{{ q }}" placeholder="account # or description" class="form-input">
+        </div>
+
+        <div>
+          <label class="form-label">From</label>
+          <input name="from_date" type="date" value="{{ from_date }}" class="form-input">
+        </div>
+        <div>
+          <label class="form-label">To</label>
+          <input name="to_date" type="date" value="{{ to_date }}" class="form-input">
+        </div>
+
+        <div style="display:flex; gap:8px;">
+          <button type="submit" class="form-btn" style="margin-top:22px;">Apply</button>
+          <a href="{% url 'transactions' %}" class="btn-outline" style="margin-top:22px;">Reset</a>
+        </div>
+      </form>
+    </div>
+
+    <div class="panel">
+      {% if transactions %}
+        <table class="tx-table" style="width:100%;">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Account</th>
+              <th>Type</th>
+              <th class="right">Amount</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for t in transactions %}
+              <tr>
+                <td class="muted">{{ t.timestamp|date:"Y-m-d H:i" }}</td>
+                <td class="mono">{{ t.account.account_number }}<div style="color:#64748b;font-size:12px;">{{ t.account.user.username }}</div></td>
+                <td>{{ t.get_txn_type_display }}</td>
+                <td class="right">₹ {{ t.amount }}</td>
+                <td>{{ t.description|default:"—" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <!-- Simple Prev / Next pagination -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+          <div style="color:#64748b;">
+            Showing {{ transactions.start_index }} - {{ transactions.end_index }} of {{ transactions.paginator.count }}
+          </div>
+
+          <div>
+            {% if transactions.has_previous %}
+              <a class="btn-outline" href="?{% if q %}q={{ q }}&{% endif %}{% if from_date %}from_date={{ from_date }}&{% endif %}{% if to_date %}to_date={{ to_date }}&{% endif %}page={{ transactions.previous_page_number }}">Prev</a>
+            {% else %}
+              <button class="btn-outline" disabled>Prev</button>
+            {% endif %}
+
+            {% if transactions.has_next %}
+              <a class="btn-outline" href="?{% if q %}q={{ q }}&{% endif %}{% if from_date %}from_date={{ from_date }}&{% endif %}{% if to_date %}to_date={{ to_date }}&{% endif %}page={{ transactions.next_page_number }}">Next</a>
+            {% else %}
+              <button class="btn-outline" disabled>Next</button>
+            {% endif %}
+          </div>
+        </div>
+
+      {% else %}
+        <div class="empty">No transactions found.</div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* minimal, reused styles */
+.form-label{ display:block; margin-bottom:6px; font-weight:600; color:#334155; font-size:13px; }
+.form-input{ padding:8px 10px; border-radius:8px; border:1px solid #e6eef9; width:100%; box-sizing:border-box; }
+.form-btn{ background:#0f59b0; color:#fff; padding:8px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
+.btn-outline{ background:transparent; color:#1a73e8; padding:6px 10px; border-radius:8px; border:1px solid rgba(26,115,232,0.12); text-decoration:none; display:inline-block; }
+.tx-table{ width:100%; border-collapse:collapse; font-size:14px; }
+.tx-table thead th{ text-align:left; font-size:13px; color:#64748b; padding-bottom:8px; }
+.tx-table td{ padding:10px 6px; border-bottom:1px solid #f1f5f9; vertical-align:top; }
+.muted{ color:#64748b; font-size:13px; }
+.mono{ font-family:monospace; color:#334155; }
+.right{ text-align:right; }
+.empty{ color:#64748b; padding:16px; border-radius:8px; background:#fbfdff; }
+</style>
+{% endblock %}
