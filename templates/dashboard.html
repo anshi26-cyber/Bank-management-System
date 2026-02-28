@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="dashboard-container">
+
+<h2 class="dash-heading">
+Bank Analytics Dashboard
+</h2>
+
+<div class="chart-grid">
+
+<div class="chart-card">
+<h4>Deposit vs Withdraw</h4>
+<canvas id="txnChart"></canvas>
+</div>
+
+<div class="chart-card">
+<h4>Monthly Transactions</h4>
+<canvas id="monthlyChart"></canvas>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

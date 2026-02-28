@@ -30,7 +30,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('create-account/', views.create_account, name='create_account'),
     path('transactions/', views.transactions_list, name='transactions'),
-
+    path('dashboard/', views.dashboard, name='dashboard'),   
 ]
 
 

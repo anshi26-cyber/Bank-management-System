@@ -1,231 +1,128 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="profile-section">
-  <div class="profile-wrap">
 
-    <header class="profile-header">
-      <div class="profile-identity">
-        <div class="avatar" aria-hidden="true">
-          {{ user.username|slice:":1"|upper }}
+<section class="dashboard">
+
+<div class="container">
+
+<!-- ================= HEADER ================= -->
+<div class="profile-header">
+
+    <div class="user-info">
+        <div class="avatar">
+            {{ user.username|slice:":1"|upper }}
         </div>
-        <div class="identity-text">
-          <h1 class="identity-name">{{ user.get_full_name|default:user.username }}</h1>
-          <p class="identity-sub">Member since {{ user.date_joined|date:"F Y" }}</p>
+
+        <div>
+            <h2>{{ user.get_full_name|default:user.username }}</h2>
+            <p>Member since {{ user.date_joined|date:"F Y" }}</p>
         </div>
-      </div>
-
-      <div class="profile-actions">
-        <a class="btn-outline" href="{% url 'create_account' %}">Create Account</a>
-
-        <!-- toggle button (no anchor) -->
-        <button id="edit-toggle" class="btn-primary" type="button" aria-expanded="false">
-          Edit Profile
-        </button>
-
-        <a class="btn-danger" href="{% url 'logout' %}">Logout</a>
-      </div>
-    </header>
-
-    <div class="profile-grid">
-
-      <!-- Account summary -->
-      <section class="panel accounts">
-        <h2 class="panel-title">Your Accounts</h2>
-
-        {% if accounts %}
-          <ul class="accounts-list">
-            {% for acc in accounts %}
-              <li class="account-item">
-                <div>
-                  <div class="acc-num">{{ acc.account_number }}</div>
-                  <div class="acc-owner">Owner: {{ acc.user.username }}</div>
-                </div>
-                <div class="acc-balance">₹ {{ acc.balance|floatformat:2 }}</div>
-              </li>
-            {% endfor %}
-          </ul>
-        {% else %}
-          <div class="empty">You don't have any accounts yet. <a href="{% url 'create_account' %}">Create one</a>.</div>
-        {% endif %}
-      </section>
-
-      <!-- Recent transactions -->
-      <section class="panel txns">
-        <h2 class="panel-title">Recent Transactions</h2>
-
-        {% if recent_transactions %}
-          <table class="tx-table" aria-describedby="recent-transactions">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Type</th>
-                <th>Account</th>
-                <th class="right">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for t in recent_transactions %}
-                <tr>
-                  <td class="muted">{{ t.timestamp|date:"Y-m-d H:i" }}</td>
-                  <td>{{ t.txn_type }}</td>
-                  <td class="mono">{{ t.account.account_number }}</td>
-                  <td class="right">₹ {{ t.amount }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-          <div class="view-all">
-            <a href="{% url 'transactions' %}">View all transactions</a>
-          </div>
-        {% else %}
-          <div class="empty">No recent transactions.</div>
-        {% endif %}
-      </section>
-
     </div>
 
-    <!-- EDIT PROFILE FORM (hidden by default; toggled via JS) -->
-    <div id="edit-panel" class="edit-panel" aria-hidden="true">
-      <h3 style="margin-bottom:8px;">Edit profile</h3>
+    <div class="actions">
+        <a href="{% url 'create_account' %}" class="btn primary">+ Create Account</a>
+        <a href="{% url 'transactions' %}" class="btn outline">Transactions</a>
+        <a href="{% url 'logout' %}" class="btn danger">Logout</a>
+    </div>
 
-      <!-- messages -->
-      {% if messages %}
-        {% for message in messages %}
-          <div class="msg-inline {{ message.tags }}">{{ message }}</div>
+</div>
+
+
+<!-- ================= STATS ================= -->
+<div class="stats">
+
+    <div class="stat-card">
+        <h4>Total Accounts</h4>
+        <p>{{ accounts|length }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h4>Total Balance</h4>
+        <p>
+        ₹
+        {% for acc in accounts %}
+            {{ acc.balance }}
+        {% empty %}
+            0
         {% endfor %}
-      {% endif %}
-
-      <form method="post" id="edit-form" style="max-width:520px;">
-        {% csrf_token %}
-
-        <label class="form-label">First name</label>
-        <input id="first_name" name="first_name" value="{{ user.first_name }}" class="form-input">
-
-        <label class="form-label">Last name</label>
-        <input name="last_name" value="{{ user.last_name }}" class="form-input">
-
-        <label class="form-label">Email</label>
-        <input name="email" type="email" value="{{ user.email }}" required class="form-input">
-
-        <div style="display:flex; gap:10px; margin-top:8px;">
-          <button type="submit" class="form-btn">Save changes</button>
-          <button id="edit-cancel" type="button" class="btn-outline">Cancel</button>
-        </div>
-      </form>
+        </p>
     </div>
 
-  </div>
+    <div class="stat-card">
+        <h4>User</h4>
+        <p>{{ user.username }}</p>
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN GRID ================= -->
+<div class="grid">
+
+<!-- ACCOUNTS -->
+<div class="card">
+
+<h3>Your Accounts</h3>
+
+{% if accounts %}
+    {% for acc in accounts %}
+    <div class="account-box">
+
+        <div>
+            <strong>{{ acc.account_number }}</strong>
+            <p>Owner: {{ acc.user.username }}</p>
+        </div>
+
+        <div class="balance">
+            ₹ {{ acc.balance|floatformat:2 }}
+        </div>
+
+    </div>
+    {% endfor %}
+{% else %}
+<p class="empty">No accounts created yet.</p>
+{% endif %}
+
+</div>
+
+
+
+<!-- RECENT TRANSACTIONS -->
+<div class="card">
+
+<h3>Recent Transactions</h3>
+
+{% if recent_transactions %}
+<table>
+
+<tr>
+<th>Date</th>
+<th>Type</th>
+<th>Amount</th>
+</tr>
+
+{% for t in recent_transactions %}
+<tr>
+<td>{{ t.timestamp|date:"d M Y" }}</td>
+<td>{{ t.get_txn_type_display }}</td>
+<td>₹ {{ t.amount }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<a href="{% url 'transactions' %}" class="view-more">
+View Full History →
+</a>
+
+{% else %}
+<p class="empty">No transactions yet.</p>
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
 </section>
-
-<style>
-/* (kept same visual style; only small additions for edit-panel toggle) */
-.profile-section{
-  background:#f4f7fb;
-  padding:48px 16px;
-  font-family: "Segoe UI", Arial, sans-serif;
-  color:#0f1724;
-}
-.profile-wrap{ max-width:1000px; margin:0 auto; }
-
-.profile-header{ display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:22px; }
-.profile-identity{ display:flex; gap:14px; align-items:center; }
-.avatar{ width:72px; height:72px; border-radius:12px; background:linear-gradient(180deg,#e6f0ff,#fff); color:#0f59b0; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:28px; border:1px solid rgba(15,75,192,0.06); box-shadow:0 8px 20px rgba(10,25,60,0.04); }
-.identity-name{ margin:0; font-size:20px; font-weight:700; color:#0f1724; }
-.identity-sub{ margin:2px 0 0 0; color:#64748b; font-size:13px; }
-
-.profile-actions{ display:flex; gap:10px; align-items:center; }
-.btn-primary{ background:#1a73e8; color:#fff; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:600; border:none; cursor:pointer; }
-.btn-outline{ background:transparent; color:#1a73e8; padding:8px 12px; border-radius:10px; border:1px solid rgba(26,115,232,0.12); text-decoration:none; cursor:pointer; }
-.btn-danger{ background:#d93025; color:#fff; padding:10px 12px; border-radius:10px; text-decoration:none; }
-
-.profile-grid{ display:grid; grid-template-columns:1fr 420px; gap:20px; }
-
-.panel{ background:#fff; border-radius:12px; padding:18px; border:1px solid #e6eef9; box-shadow:0 8px 22px rgba(10,25,60,0.03); }
-.panel-title{ margin:0 0 12px 0; font-size:16px; color:#0f59b0; font-weight:700; }
-
-.accounts-list{ list-style:none; padding:0; margin:0; }
-.account-item{ display:flex; justify-content:space-between; align-items:center; padding:12px; border-radius:10px; border:1px solid #f1f5f9; margin-bottom:10px; background:linear-gradient(180deg,#ffffff,#fbfdff); }
-.acc-num{ font-weight:700; color:#0f1724; }
-.acc-owner{ color:#64748b; font-size:13px; margin-top:4px; }
-.acc-balance{ font-weight:800; color:#0f59b0; }
-
-.tx-table{ width:100%; border-collapse:collapse; font-size:14px; }
-.tx-table thead th{ text-align:left; font-size:13px; color:#64748b; padding-bottom:8px; }
-.tx-table td{ padding:10px 6px; border-bottom:1px solid #f1f5f9; }
-.muted{ color:#64748b; font-size:13px; }
-.mono{ font-family:monospace; color:#334155; }
-.right{ text-align:right; }
-
-.empty{ color:#64748b; padding:14px; border-radius:8px; background:#fbfdff; }
-.view-all{ margin-top:10px; text-align:right; }
-.view-all a{ color:#1a73e8; text-decoration:none; font-weight:600; }
-
-/* EDIT PANEL (hidden by default) */
-#edit-panel{
-  max-width:520px;
-  margin:18px auto 0;
-  padding:18px;
-  background:#fff;
-  border-radius:10px;
-  border:1px solid #e6eef9;
-  box-shadow:0 8px 22px rgba(10,25,60,0.03);
-  display:none;                 /* hidden initially */
-}
-#edit-panel[aria-hidden="false"]{ display:block; }  /* visible when toggled */
-
-.form-label{ display:block; margin-bottom:6px; font-weight:600; color:#334155; }
-.form-input{ width:100%; padding:10px; margin-bottom:12px; border-radius:8px; border:1px solid #e6eef9; }
-
-.msg-inline{ background:#f8fafc; padding:10px; border-left:4px solid #1a73e8; margin-bottom:12px; }
-
-/* responsive */
-@media (max-width:900px){
-  .profile-grid{ grid-template-columns:1fr; }
-  .profile-header{ flex-direction:column; align-items:flex-start; gap:12px; }
-  .profile-actions{ width:100%; justify-content:flex-start; }
-  #edit-panel{ margin-left:0; margin-right:0; }
-}
-</style>
-
-<!-- JS: toggle edit form, focus, change button text/aria -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const toggleBtn = document.getElementById('edit-toggle');
-  const editPanel = document.getElementById('edit-panel');
-  const cancelBtn = document.getElementById('edit-cancel');
-
-  function openEdit() {
-    editPanel.setAttribute('aria-hidden', 'false');
-    toggleBtn.setAttribute('aria-expanded', 'true');
-    toggleBtn.textContent = 'Close';
-    // focus first field
-    const first = document.getElementById('first_name') || editPanel.querySelector('input');
-    if (first) first.focus();
-    // smooth scroll into view on small screens
-    editPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  function closeEdit() {
-    editPanel.setAttribute('aria-hidden', 'true');
-    toggleBtn.setAttribute('aria-expanded', 'false');
-    toggleBtn.textContent = 'Edit Profile';
-  }
-
-  toggleBtn.addEventListener('click', function () {
-    const open = editPanel.getAttribute('aria-hidden') === 'false';
-    if (open) closeEdit(); else openEdit();
-  });
-
-  if (cancelBtn) {
-    cancelBtn.addEventListener('click', function () {
-      closeEdit();
-    });
-  }
-
-  if (window.location.hash === '#edit') {
-    openEdit();
-  }
-});
-</script>
-
 {% endblock %}

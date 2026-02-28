@@ -10,7 +10,7 @@
       <p class="form-subtitle">Take out funds from an account</p>
 
       {% if message %}
-      <div class="form-msg">{{ message }}</div>
+      <div class="form-msg withdraw-msg">{{ message }}</div>
       {% endif %}
 
       <form method="post">
@@ -22,7 +22,7 @@
         <label class="form-label">Amount</label>
         <input type="number" step="0.01" name="amount" class="form-input" required>
 
-        <button class="form-btn">Withdraw</button>
+        <button class="form-btn withdraw-btn">Withdraw</button>
       </form>
 
     </div>
@@ -33,112 +33,5 @@
 
   </div>
 </section>
-
-
-<style>
-
-/* PAGE BACKGROUND SECTION */
-.form-section{
-    background:#eef2f7;
-    padding:55px 0;
-}
-
-/* CENTER WRAPPER */
-.form-wrapper{
-    max-width:430px;
-    margin:0 auto;
-    padding:0 20px;
-}
-
-/* CARD */
-.form-card{
-    background:#fff;
-    border-radius:14px;
-    padding:32px;
-    border:1px solid #e5e7eb;
-    box-shadow:0 8px 26px rgba(0,0,0,0.08);
-}
-
-/* TITLE */
-.form-title{
-    text-align:center;
-    color:#1e293b;
-    margin-bottom:6px;
-    font-weight:700;
-    font-size:26px;
-}
-
-/* SUBTITLE */
-.form-subtitle{
-    text-align:center;
-    color:#64748b;
-    font-size:14px;
-    margin-bottom:20px;
-}
-
-/* MESSAGE */
-.form-msg{
-    background:#f1f5f9;
-    padding:12px;
-    border-left:4px solid #dc2626;
-    border-radius:6px;
-    margin-bottom:16px;
-    font-size:14px;
-    color:#1e293b;
-}
-
-/* LABELS */
-.form-label{
-    font-size:14px;
-    font-weight:600;
-    color:#334155;
-}
-
-/* INPUT FIELD */
-.form-input{
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #cbd5e1;
-    margin-bottom:14px;
-    transition:0.25s;
-}
-
-.form-input:focus{
-    border-color:#dc2626;
-    box-shadow:0 0 0 2px rgba(220,38,38,0.25);
-    outline:none;
-}
-
-/* BUTTON */
-.form-btn{
-    width:100%;
-    background:#dc2626;
-    color:#fff;
-    padding:12px;
-    border-radius:10px;
-    border:0;
-    font-weight:600;
-    transition:0.3s;
-    cursor:pointer;
-}
-
-.form-btn:hover{
-    background:#b91c1c;
-}
-
-/* BACK LINK */
-.form-back{
-    text-align:center;
-    margin-top:18px;
-}
-
-.form-back a{
-    text-decoration:none;
-    color:#475569;
-    font-size:14px;
-}
-
-</style>
 
 {% endblock %}

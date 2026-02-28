@@ -2,199 +2,110 @@
 {% load static %}
 {% block content %}
 
-<!-- HERO SECTION -->
-<section 
-    class="hero d-flex align-items-center text-center text-white position-relative"
-    style="
-        background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)), 
-                    url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1600&q=80') 
-                    center/cover no-repeat;
-        min-height: 70vh;
-    "
->
-    <div class="container">
-        <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">
-            Smart Banking, Better Control
-        </h1>
-        <p class="lead mb-4 animate__animated animate__fadeInUp">
-            Manage accounts, deposit funds, withdraw securely, and transfer money with a streamlined banking dashboard.
-        </p>
+<!-- ================= HERO ================= -->
+<section class="hero">
 
-        {% if not user.is_authenticated %}
-        <div class="d-flex flex-column flex-md-row justify-content-center gap-3 animate__animated animate__fadeInUp">
-            <a href="{% url 'register' %}" class="btn btn-gradient btn-lg px-5 py-3 shadow-lg">
-                Create Account
-            </a>
-            <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-5 py-3 shadow-lg">
-                Login
-            </a>
-        </div>
-        {% else %}
-        <div class="d-flex justify-content-center mt-3">
-            <a href="{% url 'profile' %}" class="btn btn-info btn-lg px-5 py-3 shadow-lg">
-                Go to Profile
-            </a>
-        </div>
-        {% endif %}
+<div class="container hero-content">
 
-        <p class="mt-4 small text-light-50">
-            Secure. Reliable. Designed for smooth financial operations.
-        </p>
-    </div>
+<h1>Smart Banking Made Simple</h1>
+
+<p>
+Manage accounts, transfer money, track transactions and control your
+finances from one secure dashboard.
+</p>
+
+{% if not user.is_authenticated %}
+<div class="hero-btns">
+<a href="{% url 'register' %}" class="btn primary">Create Account</a>
+<a href="{% url 'login' %}" class="btn outline">Login</a>
+</div>
+{% else %}
+<a href="{% url 'dashboard' %}" class="btn primary">
+Go to Dashboard
+</a>
+{% endif %}
+
+</div>
 </section>
 
 
-<!-- FEATURES SECTION -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold mb-2">What You Can Do</h2>
-            <p class="text-muted mb-0">
-                Complete control over your banking operations in one place.
-            </p>
-        </div>
+<!-- ================= FEATURES ================= -->
+<section class="features">
 
-        <div class="row g-4 text-center">
-            
-            <div class="col-md-6 col-lg-4">
-                <div class="feature-card p-4 h-100">
-                    <img src="https://img.icons8.com/color/96/money-transfer.png" class="mb-3">
-                    <h4 class="fw-semibold mb-3">Instant Transfers</h4>
-                    <p class="text-muted">Transfer money safely between accounts with real-time validation.</p>
-                </div>
-            </div>
+<div class="container">
 
-            <div class="col-md-6 col-lg-4">
-                <div class="feature-card p-4 h-100">
-                    <img src="https://img.icons8.com/color/96/cash-in-hand.png" class="mb-3">
-                    <h4 class="fw-semibold mb-3">Deposit Funds</h4>
-                    <p class="text-muted">Add funds to your bank account instantly through our secure form.</p>
-                </div>
-            </div>
+<h2 class="section-title">Banking Features</h2>
 
-            <div class="col-md-6 col-lg-4">
-                <div class="feature-card p-4 h-100">
-                    <img src="https://img.icons8.com/color/96/atm.png" class="mb-3">
-                    <h4 class="fw-semibold mb-3">Withdraw Money</h4>
-                    <p class="text-muted">Withdraw cash from your account without delays or errors.</p>
-                </div>
-            </div>
+<div class="feature-grid">
 
-            <div class="col-md-6 col-lg-4">
-                <div class="feature-card p-4 h-100">
-                    <img src="https://img.icons8.com/color/96/bank-building.png" class="mb-3">
-                    <h4 class="fw-semibold mb-3">Account Management</h4>
-                    <p class="text-muted">Create accounts, view balances, and track all transactions.</p>
-                </div>
-            </div>
+<div class="feature-card">
+<div class="icon">💸</div>
+<h4>Instant Transfer</h4>
+<p>Send money between accounts securely in seconds.</p>
+</div>
 
-            <div class="col-md-6 col-lg-4">
-                <div class="feature-card p-4 h-100">
-                    <img src="https://img.icons8.com/color/96/bank-cards.png" class="mb-3">
-                    <h4 class="fw-semibold mb-3">Secure Wallet</h4>
-                    <p class="text-muted">Your account is protected with multi-layer security & encryption.</p>
-                </div>
-            </div>
+<div class="feature-card">
+<div class="icon">🏦</div>
+<h4>Account Management</h4>
+<p>Create and manage multiple bank accounts easily.</p>
+</div>
 
-        </div>
-    </div>
+<div class="feature-card">
+<div class="icon">📊</div>
+<h4>Transaction History</h4>
+<p>Track deposits, withdrawals and transfers anytime.</p>
+</div>
+
+<div class="feature-card">
+<div class="icon">🔐</div>
+<h4>Secure System</h4>
+<p>Authentication protected banking operations.</p>
+</div>
+
+</div>
+
+</div>
 </section>
 
 
+<!-- ================= STATS ================= -->
+<section class="stats">
 
-<!-- TESTIMONIALS -->
-<section class="py-5 bg-white">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold mb-2">What Our Users Say</h2>
-            <p class="text-muted mb-0">Trusted by people who use it daily for financial transactions.</p>
-        </div>
+<div class="container stats-grid">
 
-        <div class="row g-4 justify-content-center">
+<div class="stat">
+<h3>24/7</h3>
+<p>Bank Access</p>
+</div>
 
-            <div class="col-md-5">
-                <div class="testimonial-card p-4 shadow-sm bg-white h-100 rounded">
-                    <p class="mb-3">“The system made tracking my deposits and transfers very simple. Clean and easy to use.”</p>
-                    <h6 class="fw-bold mb-0">Rahul, Pune</h6>
-                    <span class="text-muted small">Working Professional</span>
-                </div>
-            </div>
+<div class="stat">
+<h3>100%</h3>
+<p>Secure Transactions</p>
+</div>
 
-            <div class="col-md-5">
-                <div class="testimonial-card p-4 shadow-sm bg-white h-100 rounded">
-                    <p class="mb-3">“I love the simple UI. Even complex actions like transfers are straightforward.”</p>
-                    <h6 class="fw-bold mb-0">Sneha, Delhi</h6>
-                    <span class="text-muted small">Student</span>
-                </div>
-            </div>
+<div class="stat">
+<h3>Fast</h3>
+<p>Money Transfers</p>
+</div>
 
-        </div>
-    </div>
+</div>
+
 </section>
 
 
+<!-- ================= CTA ================= -->
+<section class="cta">
 
-<!-- CALL TO ACTION -->
-<section class="py-5">
-    <div class="container">
-        <div class="cta cta-box text-center text-white py-5 px-3 mx-auto">
-            <h2 class="fw-bold mb-3">Get Started With Your Smart Banking</h2>
-            <p class="mb-4 lead">Create your account and manage all your banking needs from one secure dashboard.</p>
+<div class="container text-center">
 
-            <a href="{% url 'register' %}" class="btn btn-gradient btn-lg px-5 py-3 shadow-lg">
-                Create Account
-            </a>
-        </div>
-    </div>
+<h2>Start Your Digital Banking Journey</h2>
+<p>Create an account and manage everything in one place.</p>
+
+<a href="{% url 'register' %}" class="btn primary big">
+Get Started
+</a>
+
+</div>
+
 </section>
-
-<style>
-body { font-family: 'Poppins', sans-serif; background:#f8f9fa; }
-
-.text-light-50 { color: rgba(255,255,255,0.8); }
-
-.btn-gradient {
-    background: linear-gradient(90deg, #1a73e8, #0f59b0);
-    color: white;
-    border: none;
-    border-radius: 999px;
-}
-.btn-gradient:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    color:white;
-}
-
-/* Feature cards */
-.feature-card {
-    background:white;
-    border-radius:18px;
-    border:1px solid rgba(0,0,0,0.03);
-    transition:0.3s ease;
-}
-.feature-card:hover {
-    transform:translateY(-8px);
-    box-shadow:0 14px 35px rgba(0,0,0,0.12);
-}
-
-/* Testimonial */
-.testimonial-card {
-    border-radius:16px;
-    border:1px solid rgba(0,0,0,0.04);
-}
-.testimonial-card:hover {
-    transform:translateY(-5px);
-    box-shadow:0 10px 28px rgba(0,0,0,0.12);
-}
-
-/* CTA Section */
-.cta {
-    background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
-                url('https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=1600&q=80')
-                center/cover no-repeat;
-    border-radius:20px;
-    box-shadow:0 18px 45px rgba(0,0,0,0.3);
-}
-</style>
-
 {% endblock %}

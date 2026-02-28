@@ -20,20 +20,26 @@ def home(request):
 
 
 def login_user(request):
-    message = None
     if request.method == "POST":
-        username = request.POST.get("username", "").strip()
-        password = request.POST.get("password", "").strip()
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
-        user = authenticate(request, username=username, password=password)
-        if user:
+        print(username, password)   # ✅ add this
+
+        user = authenticate(request,
+                            username=username,
+                            password=password)
+
+        print("USER:", user)        # ✅ add this
+
+        if user is not None:
             login(request, user)
             return redirect("home")
+
         else:
-            message = "Invalid username or password."
+            messages.error(request, "Invalid username or password")
 
-    return render(request, "login.html", {"message": message})
-
+    return render(request, "login.html")
 
 def register_user(request):
     message = None
@@ -108,6 +114,10 @@ def profile(request):
         "recent_transactions": recent_transactions,
     }
     return render(request, "profile.html", context)
+
+@login_required
+def dashboard(request):
+    return render(request,"dashboard.html")
 
 @login_required(login_url='login')
 def create_account(request):

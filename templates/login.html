@@ -2,16 +2,18 @@
 
 {% block content %}
 
-<section style="background:#f3f4f6; padding:56px 0;">
-  <div style="max-width:420px; margin:0 auto; padding:0 16px;">
-    <div style="background:#fff; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.06); overflow:hidden;">
-      <div style="padding:28px;">
-        <h3 style="margin:0 0 6px; color:#202124; font-weight:700; text-align:center;">Login</h3>
-        <p style="margin:0 0 18px; text-align:center; color:#6b7280; font-size:14px;">Access your account securely</p>
+<section class="login-section">
+  <div class="login-wrapper">
+
+    <div class="login-card">
+      <div class="login-body">
+
+        <h3 class="login-title">Login</h3>
+        <p class="login-subtitle">Access your account securely</p>
 
         {% if messages %}
           {% for message in messages %}
-            <div style="background:#f8f9fa; padding:10px 12px; border-radius:8px; margin-bottom:12px; color:#111;">
+            <div class="login-msg">
               {{ message }}
             </div>
           {% endfor %}
@@ -20,38 +22,34 @@
         <form method="POST" action="{% url 'login' %}">
           {% csrf_token %}
 
-          <div style="margin-bottom:12px;">
-            <label style="display:block; font-size:13px; color:#374151; margin-bottom:6px;">Username</label>
-            <input type="text" name="username" required
-                   style="width:100%; padding:10px; border-radius:10px; border:1px solid #d1d5db;">
+          <div class="login-field">
+            <label>Username</label>
+            <input type="text" name="username" required>
           </div>
 
-          <div style="margin-bottom:16px;">
-            <label style="display:block; font-size:13px; color:#374151; margin-bottom:6px;">Password</label>
-            <input type="password" name="password" required
-                   style="width:100%; padding:10px; border-radius:10px; border:1px solid #d1d5db;">
+          <div class="login-field">
+            <label>Password</label>
+            <input type="password" name="password" required>
           </div>
 
-          <div style="margin-bottom:8px;">
-            <button type="submit"
-                    style="width:100%; background:#1a73e8; color:#fff; padding:10px; border-radius:10px; border:0; font-weight:600;">
-              Login
-            </button>
-          </div>
+          <button type="submit" class="login-btn">
+            Login
+          </button>
 
-          <p style="text-align:center; margin:8px 0 0; font-size:13px; color:#374151;">
+          <p class="login-register">
             Don’t have an account?
-            <a href="{% url 'register' %}" style="color:#1a73e8; text-decoration:none; font-weight:600;"> Register here</a>
+            <a href="{% url 'register' %}">Register here</a>
           </p>
+
         </form>
+
       </div>
     </div>
 
-    <div style="text-align:center; margin-top:14px;">
-      <a href="{% url 'home' %}" style="display:inline-block; padding:8px 14px; border-radius:999px; border:1px solid #e5e7eb; color:#111; text-decoration:none;">
-        ⬅ Back to Homepage
-      </a>
+    <div class="login-back">
+      <a href="{% url 'home' %}">⬅ Back to Homepage</a>
     </div>
+
   </div>
 </section>
 
